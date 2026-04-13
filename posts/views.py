@@ -59,7 +59,6 @@ def like_post(request, pk):
 def like_post_ajax(request, pk):
     post = Post.objects.get(pk=pk)
     if request.user in post.likes.all():
-        # post.unlike(request.user)
         request.user.profile.unlike_post(post)
         return JsonResponse(
           {
@@ -69,7 +68,6 @@ def like_post_ajax(request, pk):
             }
         )
     else:
-        # post.like(request.user)
         request.user.profile.like_post(post)
         return JsonResponse(
           {

@@ -32,11 +32,8 @@ class HomeView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        # Si el usuario está logueado
         if self.request.user.is_authenticated:
-            # Obtenemos los posts de los usuarios que seguimos
             seguidos = Follow.objects.filter(follower=self.request.user.profile).values_list('following__user', flat=True)
-            # Nos traemos los posts de los usuarios que seguimos
             last_posts = Post.objects.filter(user__profile__user__in=seguidos)
 
         else:
@@ -124,7 +121,6 @@ class ProfileDetailView(DetailView, FormView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        # Comprobamos si seguimos al usuario
         following = Follow.objects.filter(follower=self.request.user.profile, following=self.get_object()).exists()
         context['following'] = following
         return context
