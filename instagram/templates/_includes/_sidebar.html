@@ -1,0 +1,54 @@
+<nav class="sidebar d-none d-md-flex flex-column p-3 border-end">
+  <a href="{% url 'home' %}" class="brand-text mb-4 mt-3 ms-2">InstaNDH</a>
+  <ul class="nav flex-column mb-auto">
+    <li class="nav-item mb-2">
+      <a href="{% url 'home' %}" class="nav-link text-color pe-auto d-flex align-items-center gap-3 sidebar-link">
+        <i class="bi bi-house-door-fill fs-4"></i> <span class="d-none d-xl-block fs-6">Inicio</span>
+      </a>
+    </li>
+    <li class="nav-item mb-2">
+      <a href="#" class="nav-link text-color pe-auto d-flex align-items-center gap-3 sidebar-link">
+        <i class="bi bi-search fs-4"></i> <span class="d-none d-xl-block fs-6">Buscar</span>
+      </a>
+    </li>
+    <li class="nav-item mb-2">
+      <a href="{% url 'profile_list' %}" class="nav-link text-color pe-auto d-flex align-items-center gap-3 sidebar-link">
+        <i class="bi bi-people fs-4"></i> <span class="d-none d-xl-block fs-6">Explorar</span>
+      </a>
+    </li>
+    {% if request.user.is_authenticated %}
+    <li class="nav-item mb-2">
+      <a href="{% url 'post_create' %}" class="nav-link text-color pe-auto d-flex align-items-center gap-3 sidebar-link">
+        <i class="bi bi-plus-square fs-4"></i> <span class="d-none d-xl-block fs-6">Crear</span>
+      </a>
+    </li>
+    <li class="nav-item mb-2">
+      <a href="{% url 'profile_detail' request.user.profile.pk %}" class="nav-link text-color pe-auto d-flex align-items-center gap-3 sidebar-link">
+        <img class="rounded-circle border" src="{{ request.user.profile.profile_picture.url }}" width="24" height="24" style="object-fit:cover;"> 
+        <span class="d-none d-xl-block fs-6">Perfil</span>
+      </a>
+    </li>
+    {% else %}
+    <li class="nav-item mb-2">
+      <a href="{% url 'login' %}" class="nav-link text-color pe-auto d-flex align-items-center gap-3 sidebar-link">
+        <i class="bi bi-box-arrow-in-right fs-4"></i> <span class="d-none d-xl-block fs-6">Entrar</span>
+      </a>
+    </li>
+    {% endif %}
+  </ul>
+  
+  <ul class="nav flex-column mt-4">
+    <li class="nav-item mb-2">
+      <a href="#" id="theme-toggle" class="nav-link text-color pe-auto d-flex align-items-center gap-3 sidebar-link">
+        <i class="bi bi-moon fs-4" id="theme-icon"></i> <span class="d-none d-xl-block fs-6">Modo</span>
+      </a>
+    </li>
+    {% if request.user.is_authenticated %}
+    <li class="nav-item">
+      <a href="{% url 'logout' %}" class="nav-link text-color pe-auto d-flex align-items-center gap-3 sidebar-link">
+        <i class="bi bi-list fs-4"></i> <span class="d-none d-xl-block fs-6">Salir</span>
+      </a>
+    </li>
+    {% endif %}
+  </ul>
+</nav>

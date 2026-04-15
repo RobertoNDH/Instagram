@@ -1,0 +1,9 @@
+<header class="mobile-header d-flex d-md-none justify-content-between px-3 py-2 border-bottom align-items-center fixed-top bg-page">
+  <a href="{% url 'home' %}" class="brand-text m-0 fs-1">InstaNDH</a>
+  <div class="d-flex gap-3">
+    <a href="#" id="theme-toggle-mobile" class="text-color fs-3"><i class="bi bi-moon" id="theme-icon-mobile"></i></a>
+    {% if request.user.is_authenticated %}
+    <a href="#" class="text-color fs-3"><i class="bi bi-heart"></i></a>
+    {% endif %}
+  </div>
+</header>
