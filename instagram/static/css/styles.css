@@ -3,15 +3,15 @@
 :root {
   --ig-primary: #d62976;
   --ig-gradient: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
-  --ig-bg-light: #fafafa;
+  --ig-bg-light: #ffffff;
   --ig-bg-dark: #000000;
   --ig-card-light: #ffffff;
-  --ig-card-dark: #121212;
+  --ig-card-dark: #000000;
   --ig-border-light: #dbdbdb;
-  --ig-border-dark: #363636;
-  --ig-text-light: #262626;
+  --ig-border-dark: #262626;
+  --ig-text-light: #000000;
   --ig-text-dark: #f5f5f5;
-  --ig-text-muted-light: #8e8e8e;
+  --ig-text-muted-light: #737373;
   --ig-text-muted-dark: #a8a8a8;
 }
 
@@ -32,17 +32,68 @@
 }
 
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter', -apple-system, sans-serif;
   background-color: var(--bg-color);
   color: var(--text-color);
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+.bg-page {
+  background-color: var(--bg-color) !important;
+}
+
+.text-color {
+  color: var(--text-color) !important;
+}
+
 .brand-text {
   font-family: 'Grand Hotel', cursive;
-  font-size: 2.5rem;
+  font-size: 2rem;
   color: var(--text-color);
   text-decoration: none;
+}
+
+.brand-text:hover {
+  color: var(--text-color);
+}
+
+.sidebar {
+  width: 244px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  z-index: 1000;
+  background-color: var(--bg-color);
+  border-color: var(--border-color) !important;
+}
+
+.sidebar-link {
+  border-radius: 8px;
+  padding: 12px;
+  transition: background-color 0.2s;
+}
+
+.sidebar-link:hover {
+  background-color: rgba(150, 150, 150, 0.1);
+}
+
+.main-content {
+  margin-left: 244px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding-top: 20px;
+}
+
+.feed-column {
+  max-width: 470px;
+  width: 100%;
+}
+
+.suggestions-column {
+  width: 319px;
+  padding-top: 30px;
 }
 
 .card-custom {
@@ -50,7 +101,7 @@ body {
   border: 1px solid var(--border-color);
   border-radius: 8px;
   overflow: hidden;
-  transition: background-color 0.3s ease, border-color 0.3s ease;
+  margin-bottom: 20px;
 }
 
 .text-muted-custom {
@@ -62,13 +113,12 @@ body {
   color: white;
   border: none;
   font-weight: 600;
-  transition: opacity 0.2s;
   border-radius: 8px;
+  transition: opacity 0.2s;
 }
 
 .btn-ig:hover {
-  opacity: 0.9;
-  color: white;
+  opacity: 0.85;
 }
 
 .stories-container {
@@ -76,6 +126,12 @@ body {
   gap: 15px;
   overflow-x: auto;
   padding: 15px 0;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 20px;
+}
+
+.stories-container::-webkit-scrollbar {
+  display: none;
 }
 
 .story-circle {
@@ -92,7 +148,7 @@ body {
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  border: 2px solid var(--card-bg);
+  border: 2px solid var(--bg-color);
   object-fit: cover;
 }
 
@@ -105,7 +161,6 @@ body {
 
 .story-username {
   font-size: 0.75rem;
-  font-weight: 500;
   color: var(--text-color);
   max-width: 66px;
   overflow: hidden;
@@ -116,46 +171,69 @@ body {
 .likeButton {
   text-decoration: none;
   color: var(--text-color);
-  font-size: 1.5rem;
   transition: transform 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
 .likeButton:hover {
-  transform: scale(1.1);
+  transform: scale(1.05);
+  color: var(--text-muted);
 }
 
-.likeButton i.bi-suit-heart-fill {
+.icon-liked {
   color: var(--ig-primary);
 }
 
-header {
-  background-color: var(--card-bg);
-  border-bottom: 1px solid var(--border-color);
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  padding: 10px 0;
-}
-
 .nav-icons {
-  display: flex;
-  gap: 20px;
-  align-items: center;
   list-style: none;
-  margin: 0;
   padding: 0;
-}
-
-.nav-icons a {
-  color: var(--text-color);
-  font-size: 1.5rem;
-  transition: transform 0.2s;
-}
-
-.nav-icons a:hover {
-  transform: scale(1.1);
 }
 
 a {
   text-decoration: none;
+}
+
+@media (max-width: 768px) {
+  .sidebar { 
+    display: none !important; 
+  }
+  .main-content { 
+    margin-left: 0; 
+    padding-top: 70px;
+    padding-bottom: 70px;
+  }
+  .suggestions-column {
+    display: none !important;
+  }
+  .card-custom {
+    border-left: none;
+    border-right: none;
+    border-radius: 0;
+  }
+  .mobile-header {
+    height: 60px;
+    border-color: var(--border-color) !important;
+  }
+  .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: var(--bg-color);
+    border-color: var(--border-color) !important;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1199px) {
+  .sidebar {
+    width: 72px;
+  }
+  .main-content {
+    margin-left: 72px;
+  }
+  .brand-text {
+    display: none;
+  }
 }

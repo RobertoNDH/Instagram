@@ -3,11 +3,13 @@
 {% block head_title %}Bienvenido a InstaNDH{% endblock %}
 
 {% block page_content %}
-<div class="container mt-3">
-  {% include '_includes/_messages.html' %}
-
-  <section class="mb-4">
-    <div class="card-custom stories-container">
+<div class="d-flex justify-content-center w-100 mt-4 px-2">
+  
+  <div class="feed-column">
+    {% include '_includes/_messages.html' %}
+    
+    <!-- Historias -->
+    <div class="stories-container">
       {% for i in "12345678" %}
       <div class="story-wrapper">
         <div class="story-circle">
@@ -17,18 +19,49 @@
       </div>
       {% endfor %}
     </div>
-  </section>
 
-  <section>
-    <h4 class="mb-3">Últimas publicaciones</h4>
-
-    <div class="row">
+    <!-- Feed de Posts -->
+    <div>
       {% for post in last_posts %}
-        <div class="col-12 col-sm-6 col-md-4">
           {% include '_includes/posts/_post.html' %}
-        </div>
+      {% empty %}
+        <p class="text-center text-muted-custom mt-5">Aún no hay publicaciones. ¡Sé el primero!</p>
       {% endfor %}
     </div>
-  </section>
+  </div>
+
+  <!-- Sidebar Derecho (Sugerencias Escritorio) -->
+  <div class="suggestions-column ms-5 d-none d-lg-block">
+    <div class="d-flex align-items-center mb-4">
+      {% if request.user.is_authenticated %}
+        <img class="rounded-circle border me-3" src="{{ request.user.profile.profile_picture.url }}" width="44" height="44" style="object-fit:cover;">
+        <div>
+          <a href="{% url 'profile_detail' request.user.profile.pk %}" class="fw-bold text-color text-decoration-none">{{ request.user.username }}</a>
+          <div class="text-muted-custom" style="font-size: 0.85rem;">{{ request.user.first_name }} {{ request.user.last_name }}</div>
+        </div>
+        <a href="{% url 'logout' %}" class="ms-auto fw-bold text-decoration-none" style="font-size: 0.85rem; color:var(--ig-primary);">Salir</a>
+      {% endif %}
+    </div>
+    
+    <div class="d-flex justify-content-between mb-3">
+      <span class="fw-bold text-muted-custom" style="font-size: 0.85rem;">Sugerencias para ti</span>
+      <a href="{% url 'profile_list' %}" class="text-color text-decoration-none fw-bold" style="font-size: 0.85rem;">Ver todo</a>
+    </div>
+
+    <!-- Sugerencias Falsas (Placeholder) -->
+    <div class="d-flex align-items-center mb-3">
+      <img class="rounded-circle border me-3" src="https://ui-avatars.com/api/?name=Sugerido+1" width="32" height="32" style="object-fit:cover;">
+      <div>
+        <a href="#" class="fw-bold text-color text-decoration-none" style="font-size: 0.85rem;">sugerido_uno</a>
+        <div class="text-muted-custom" style="font-size: 0.75rem;">12M de seguidores</div>
+      </div>
+      <a href="#" class="ms-auto fw-bold text-decoration-none" style="font-size: 0.85rem; color: #0095f6;">Seguir</a>
+    </div>
+    
+    <div style="font-size: 0.75em; margin-top:30px;" class="text-muted-custom">
+      &copy; 2026 INSTANDH FROM AI
+    </div>
+  </div>
+
 </div>
 {% endblock %}
