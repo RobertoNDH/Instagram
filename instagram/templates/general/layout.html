@@ -10,24 +10,36 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
-<body>
-    {% include '_includes/_header.html' %}
+<body class="bg-page text-color">
+    
+    <div class="d-flex min-vh-100 flex-column flex-md-row">
+      
+      <!-- Navegación Escritorio -->
+      {% include '_includes/_sidebar.html' %}
 
-    {% block page_content %}
+      <!-- Navegación Superior Móvil -->
+      {% include '_includes/_mobile_header.html' %}
 
-    {% endblock %}
+      <!-- Contenido Principal -->
+      <main class="main-content flex-grow-1">
+        {% block page_content %}
+        {% endblock %}
+      </main>
+
+      <!-- Navegación Inferior Móvil -->
+      {% include '_includes/_bottom_nav.html' %}
+
+    </div>
 
     {% include '_includes/_footer.html' %}
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      console.log('DOM cargado');
+      // Like buttons logic
       const likeButtons = document.querySelectorAll('a.likeButton');
       likeButtons.forEach(likeButton => {
         let nLikesSpan = likeButton.querySelector('span');
-
         let nLikes = parseInt(nLikesSpan.innerHTML);
         likeButton.addEventListener('click', (event) => {
           event.preventDefault();
@@ -36,26 +48,33 @@
             .then(data => {
               if (data.liked) {
                 nLikes += 1;
-                likeButton.innerHTML = `<span>${nLikes}</span> <i class="bi bi-suit-heart-fill"></i>`;
+                likeButton.innerHTML = `<span>${nLikes} Me gusta</span> <i class="bi bi-suit-heart-fill icon-liked fs-4"></i>`;
               } else {
                 nLikes -= 1;
-                likeButton.innerHTML = `<span>${nLikes}</span> <i class="bi bi-heart"></i>`;
+                likeButton.innerHTML = `<span>${nLikes} Me gusta</span> <i class="bi bi-heart fs-4 text-color"></i>`;
               }
             });
         });
       });
-    });
 
-    const themeToggleBtn = document.getElementById('theme-toggle');
-    if (themeToggleBtn) {
-      themeToggleBtn.addEventListener('click', () => {
-        const currentTheme = document.documentElement.getAttribute('data-bs-theme');
-        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-        document.documentElement.setAttribute('data-bs-theme', newTheme);
-        themeToggleBtn.innerHTML = newTheme === 'light' ? '<i class="bi bi-moon-fill"></i>' : '<i class="bi bi-brightness-high-fill"></i>';
+      // Theme toggle logic (Applies to both mobile and desktop buttons)
+      const themeToggleBtns = [document.getElementById('theme-toggle'), document.getElementById('theme-toggle-mobile')];
+      themeToggleBtns.forEach(btn => {
+        if(btn) {
+          btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const currentTheme = document.documentElement.getAttribute('data-bs-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-bs-theme', newTheme);
+            
+            // Modify icons
+            document.querySelectorAll('#theme-icon, #theme-icon-mobile').forEach(i => {
+               i.className = newTheme === 'light' ? 'bi bi-moon fs-4' : 'bi bi-brightness-high fs-4';
+            });
+          });
+        }
       });
-    }
+    });
   </script>
-
 </body>
 </html>
