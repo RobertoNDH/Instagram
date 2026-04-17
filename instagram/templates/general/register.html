@@ -4,21 +4,51 @@
 {% block head_title %}Únete a InstaNDH{% endblock %}
 
 {% block page_content %}
-<div class="container">
-  {% include '_includes/_messages.html' %}
+<div class="d-flex justify-content-center align-items-center w-100 min-vh-100 px-3 pb-5">
+  <div style="max-width: 350px; width: 100%;">
+    
+    <div class="card-custom p-4 text-center shadow-sm">
+      <h1 class="brand-text mb-2 mt-2" style="font-size: 2.5rem;">InstaNDH</h1>
+      <p class="text-muted-custom fw-bold mb-4" style="font-size: 1rem;">Regístrate para ver fotos y vídeos de tus amigos.</p>
+      
+      {% include '_includes/_messages.html' %}
 
-  <h1>Regístrate</h1>
-    <form action="" method="post">
-      {% csrf_token %}
-      <div class="row">
-        <div class="col-12 col-sm-6">
+      <a href="#" class="btn btn-primary btn-sm w-100 fw-bold py-2 mb-3 mt-2" style="background-color: #0095f6; border: none;">
+        <i class="bi bi-facebook me-2"></i>Iniciar sesión con Facebook
+      </a>
+      
+      <div class="d-flex align-items-center mb-4">
+        <hr class="flex-grow-1 text-muted-custom">
+        <span class="mx-3 text-muted-custom small fw-bold">O</span>
+        <hr class="flex-grow-1 text-muted-custom">
+      </div>
+
+      <form action="" method="post" class="text-start">
+        {% csrf_token %}
+        <div class="mb-2">
           {{ form.first_name|as_crispy_field }}
+        </div>
+        <div class="mb-2">
           {{ form.username|as_crispy_field }}
+        </div>
+        <div class="mb-2">
           {{ form.email|as_crispy_field }}
+        </div>
+        <div class="mb-3">
           {{ form.password|as_crispy_field }}
         </div>
-      </div>
-      <button class="btn btn-secondary">Registrarse</button>
-    </form>
+        <button type="submit" class="btn btn-ig w-100 py-2">Registrarte</button>
+      </form>
+      
+      <p class="text-muted-custom small mt-4">Al registrarte, aceptas nuestras Condiciones, la Política de privacidad y la Política de cookies.</p>
+    </div>
+
+    <div class="card-custom p-3 text-center shadow-sm mt-3">
+      <p class="m-0 text-color" style="font-size: 0.9rem;">
+        ¿Tienes una cuenta? <a href="{% url 'login' %}" class="text-decoration-none fw-bold" style="color: var(--ig-primary);">Entrar</a>
+      </p>
+    </div>
+
+  </div>
 </div>
 {% endblock %}
