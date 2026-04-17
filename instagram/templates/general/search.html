@@ -1,0 +1,32 @@
+{% extends "general/layout.html" %}
+{% load static %}
+
+{% block head_title %}Buscar - InstaNDH{% endblock %}
+
+{% block page_content %}
+<div class="d-flex justify-content-center w-100 mt-4 px-2">
+  <div class="feed-column">
+    
+    <!-- Barra de búsqueda -->
+    <div class="mb-4">
+      <div class="position-relative">
+        <i class="bi bi-search position-absolute top-50 translate-middle-y ms-3 text-muted"></i>
+        <input type="text" class="form-control rounded-pill ps-5 bg-page text-color border" placeholder="Buscar" style="height: 40px;">
+      </div>
+    </div>
+
+    <!-- Sugerencias / Mock Grid -->
+    <h6 class="mb-3 fw-bold">Tendencias para ti</h6>
+    <div class="row g-1">
+      {% for i in "123456789" %}
+      <div class="col-4">
+        <div class="position-relative overflow-hidden w-100" style="padding-bottom: 100%;">
+          <img src="https://picsum.photos/300/300?random={{ i }}" class="position-absolute top-0 start-0 w-100 h-100 placeholder-wave" style="object-fit: cover;" alt="Grid">
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+  </div>
+</div>
+{% endblock %}
