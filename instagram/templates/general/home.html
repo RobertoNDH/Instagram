@@ -25,7 +25,36 @@
       {% for post in last_posts %}
           {% include '_includes/posts/_post.html' %}
       {% empty %}
-        <p class="text-center text-muted-custom mt-5">Aún no hay publicaciones. ¡Sé el primero!</p>
+        <!-- Post Falso cuando no hay posts (Empty State) -->
+        <article class="mb-4">
+          <div class="card-custom mt-2">
+            <div>
+                <div class="d-flex flex-row justify-content-between align-items-center p-2 border-bottom">
+                    <div class="d-flex flex-row align-items-center feed-text px-2">
+                      <img class="rounded-circle" src="https://ui-avatars.com/api/?name=Insta+NDH&background=random" width="45">
+                      <div class="d-flex flex-column flex-wrap ms-2">
+                        <span class="fw-bold">InstaNDH</span>
+                        <span class="text-muted-custom" style="font-size: 0.85rem;">Hace un momento</span>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="feed-image p-2 px-3">
+              <img class="img-fluid rounded" src="https://images.unsplash.com/photo-1511895426328-dc8714191300?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Bienvenida">
+            </div>
+            <footer class="p-3">
+              <div class="d-flex gap-3 mb-2">
+                  <a href="#" class="text-color fs-4"><i class="bi bi-heart"></i></a>
+                  <a href="#" class="text-color fs-4"><i class="bi bi-chat"></i></a>
+                  <a href="#" class="text-color fs-4"><i class="bi bi-send"></i></a>
+              </div>
+              <p class="fw-bold mb-1">Miles de Me gusta</p>
+              <p>
+                <span class="fw-bold">InstaNDH</span> ¡Bienvenido a tu nueva red social! Cuando publiques fotos aparecerán en este muro. Empieza a seguir a otras personas y a crear contenido. 🚀
+              </p>
+            </footer>
+          </div>
+        </article>
       {% endfor %}
     </div>
   </div>

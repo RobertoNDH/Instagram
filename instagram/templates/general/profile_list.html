@@ -1,28 +1,47 @@
 {% extends "general/layout.html" %}
 
-{% block head_title %}Bienvenido a nuestro InstaConquer{% endblock %}
+{% block head_title %}Explorar - InstaNDH{% endblock %}
 
 {% block page_content %}
-<div class="container">
-  {% include '_includes/_messages.html' %}
+<div class="d-flex justify-content-center w-100 mt-4 px-2">
+  <div class="feed-column">
+    {% include '_includes/_messages.html' %}
 
-  <h1>Perfiles</h1>
-  <div class="row">
-    {% for profile in profiles %}
-    <article class="col-12 col-sm-4">
-      <h5>{{ profile.user.username }}</h5>
-      <p>
-        {% if profile.profile_picture %}
-          <img width="100" src="{{ profile.profile_picture.url }}" alt="">
-        {% else %}
-          No dispone de foto de perfil
-        {% endif %}
-      </p>
-      <p>{{ profile.bio|default_if_none:"Sin rellenar" }}</p>
-      <p>Seguidores: {{ profile.followers.count }}</p>
-      <p><a href="{% url 'profile_detail' profile.pk %}">Ver perfil</a></p>
-    </article>
-    {% endfor %}
+    <h5 class="fw-bold mb-4">Descubre personas</h5>
+
+    <div class="row g-3">
+      {% for profile in profiles %}
+      <div class="col-6 col-md-4">
+        <div class="card-custom text-center p-3 h-100 d-flex flex-column justify-content-between">
+          <div>
+            {% if profile.profile_picture %}
+              <img width="80" height="80" src="{{ profile.profile_picture.url }}" class="rounded-circle border mb-2" style="object-fit: cover;">
+            {% else %}
+              <img width="80" height="80" src="https://ui-avatars.com/api/?name={{ profile.user.username }}&background=random" class="rounded-circle border mb-2">
+            {% endif %}
+            <h6 class="fw-bold text-color mb-0 text-truncate">{{ profile.user.username }}</h6>
+            <div class="text-muted-custom small mb-3 text-truncate">{{ profile.user.first_name }} {{ profile.user.last_name }}</div>
+          </div>
+          <a href="{% url 'profile_detail' profile.pk %}" class="btn btn-primary btn-sm w-100 fw-bold">Ver perfil</a>
+        </div>
+      </div>
+      {% empty %}
+        <!-- Mock profiles if empty -->
+        {% for dummy in "123456" %}
+        <div class="col-6 col-md-4">
+          <div class="card-custom text-center p-3 h-100 d-flex flex-column justify-content-between">
+            <div>
+              <img width="80" height="80" src="https://ui-avatars.com/api/?name=User+{{ dummy }}&background=random" class="rounded-circle border mb-2">
+              <h6 class="fw-bold text-color mb-0 text-truncate">usuario_demo_{{ dummy }}</h6>
+              <div class="text-muted-custom small mb-3 text-truncate">Ejemplo Falso</div>
+            </div>
+            <a href="#" class="btn btn-primary btn-sm w-100 fw-bold">Seguir</a>
+          </div>
+        </div>
+        {% endfor %}
+      {% endfor %}
+    </div>
+
   </div>
 </div>
 {% endblock %}
