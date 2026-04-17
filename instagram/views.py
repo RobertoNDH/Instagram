@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.views.generic.edit import FormView
 from django.contrib.auth import login, authenticate, logout
-from django.shortcuts import HttpResponseRedirect
+from django.shortcuts import HttpResponseRedirect, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
@@ -29,15 +29,18 @@ from .forms import ProfileFollow
 class HomeView(TemplateView):
     template_name = "general/home.html"
 
+class SearchView(TemplateView):
+    template_name = "general/search.html"
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
         if self.request.user.is_authenticated:
             seguidos = Follow.objects.filter(follower=self.request.user.profile).values_list('following__user', flat=True)
-            last_posts = Post.objects.filter(user__profile__user__in=seguidos)
+            last_posts = Post.objects.select_related('user__profile').filter(user__profile__user__in=seguidos)
 
         else:
-            last_posts = Post.objects.all().order_by('-created_at')[:10]
+            last_posts = Post.objects.select_related('user__profile').all().order_by('-created_at')[:10]
         context['last_posts'] = last_posts
 
         return context
@@ -96,7 +99,7 @@ class ProfileDetailView(DetailView, FormView):
     def form_valid(self, form):
         profile_pk = form.cleaned_data.get('profile_pk')
         action = form.cleaned_data.get('action')
-        following = UserProfile.objects.get(pk=profile_pk)
+        following = get_object_or_404(UserProfile, pk=profile_pk)
 
         if Follow.objects.filter(
               follower=self.request.user.profile,
@@ -133,8 +136,8 @@ class ProfileListView(ListView):
 
     def get_queryset(self):
         if self.request.user.is_authenticated:
-            return UserProfile.objects.all().order_by('user__username').exclude(user=self.request.user)
-        return UserProfile.objects.all().order_by('user__username')
+            return UserProfile.objects.select_related('user').all().order_by('user__username').exclude(user=self.request.user)
+        return UserProfile.objects.select_related('user').all().order_by('user__username')
 
 
 @method_decorator(login_required, name='dispatch')

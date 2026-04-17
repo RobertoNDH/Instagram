@@ -5,7 +5,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.views.generic.detail import DetailView
-from django.shortcuts import HttpResponseRedirect
+from django.shortcuts import HttpResponseRedirect, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth.decorators import login_required
 from .forms import CommentCreateForm
@@ -27,6 +27,7 @@ class PostCreateView(CreateView):
         return super(PostCreateView, self).form_valid(form)
 
 
+@method_decorator(login_required, name='post')
 class PostDetailView(DetailView, CreateView):
     template_name = "posts/post_detail.html"
     model = Post
@@ -45,7 +46,7 @@ class PostDetailView(DetailView, CreateView):
 
 @login_required
 def like_post(request, pk):
-    post = Post.objects.get(pk=pk)
+    post = get_object_or_404(Post, pk=pk)
     if request.user in post.likes.all():
         messages.add_message(request, messages.INFO, "Ya no te gusta esta publicación.")
         post.likes.remove(request.user)
@@ -57,7 +58,7 @@ def like_post(request, pk):
 
 @login_required
 def like_post_ajax(request, pk):
-    post = Post.objects.get(pk=pk)
+    post = get_object_or_404(Post, pk=pk)
     if request.user in post.likes.all():
         request.user.profile.unlike_post(post)
         return JsonResponse(
